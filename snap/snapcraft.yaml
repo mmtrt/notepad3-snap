@@ -4,15 +4,20 @@ summary: notepad3 is a fast and light-weight text editor.
 description: |
  notepad3 is a fast and light-weight Scintilla-based text editor with syntax highlighting. It has a small memory footprint, but is powerful enough to handle most programming jobs.
 adopt-info: notepad3
-
-confinement: strict
 grade: stable
-architectures:
-  - build-on: amd64
-base: core22
+confinement: strict
+base: core24
+platforms:
+  amd64:
 compression: lzo
+assumes:
+  - snapd2.62
 
 plugs:
+  gaming-graphics-core24:
+    interface: content
+    target: $SNAP/graphics
+    default-provider: gaming-graphics-core24
   gtk-3-themes:
     interface: content
     target: $SNAP/share/themes
@@ -30,14 +35,14 @@ plugs:
   shmem:
     interface: shared-memory
     private: true
-  wine-runtime-c22:
+  wine-runtime-c24:
     interface: content
     target: $SNAP/wine-runtime
-    default-provider: wine-platform-runtime-core22
-  wine-7-devel-c22:
+    default-provider: wine-platform-runtime-core24
+  wine-base-stable:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-7-devel-core22
+    default-provider: wine-platform
 
 environment:
   LD_LIBRARY_PATH: $SNAP/wine-runtime/usr/lib/i386-linux-gnu:$SNAP/wine-runtime/lib/i386-linux-gnu:$SNAP/wine-runtime/usr/lib/x86_64-linux-gnu:$SNAP/wine-runtime/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
@@ -120,7 +125,7 @@ parts:
   sommelier:
     plugin: make
     source: https://github.com/mmtrt/sommelier-core.git
-    source-branch: "new-core22"
+    source-branch: "new-core24"
 
   #fix-up-font:
     #plugin: nil

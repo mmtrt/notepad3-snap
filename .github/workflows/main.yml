@@ -6,9 +6,9 @@ name: stable
 on:
   # Triggers the workflow on push or pull request events but only for the core22 branch
   push:
-    branches: [ core22 ]
+    branches: [ core24 ]
   pull_request:
-    branches: [ core22 ]
+    branches: [ core24 ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
