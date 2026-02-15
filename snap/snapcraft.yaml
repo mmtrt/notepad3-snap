@@ -14,10 +14,6 @@ assumes:
   - snapd2.62
 
 plugs:
-  gaming-graphics-core24:
-    interface: content
-    target: $SNAP/graphics
-    default-provider: gaming-graphics-core24
   gtk-3-themes:
     interface: content
     target: $SNAP/share/themes
@@ -45,18 +41,16 @@ plugs:
     default-provider: wine-platform
 
 environment:
-  LD_LIBRARY_PATH: $SNAP/wine-runtime/usr/lib/i386-linux-gnu:$SNAP/wine-runtime/lib/i386-linux-gnu:$SNAP/wine-runtime/usr/lib/x86_64-linux-gnu:$SNAP/wine-runtime/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
   WINEDLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
+  WINEPREFIX: "$SNAP_USER_COMMON/.wine"
   RUN_EXE: "$SNAP_USER_DATA/notepad3/notepad3.exe"
   SOMMELIER_KEEP_CWD: "1" # Don't change the working directory so relative paths still work
   NO_AT_BRIDGE: "1" # Fix yad error Failed to connect to socket /tmp/dbus-xxx: No such file or directory
   DISABLE_WAYLAND: "1" # Fix gtk decoration under wayland session
-  #LIBGL_DEBUG: verbose
-  TMPDIR: $XDG_RUNTIME_DIR
 
 apps:
   notepad3:
-    command-chain: [bin/desktop-launch]
+    extensions: [gnome]
     command: bin/sommelier run-exe
     plugs:
       - shmem
@@ -79,7 +73,7 @@ apps:
   # For example, users can configure the wine environment of this snap
   # by running `myapp.wine winecfg`.
   wine:
-    command-chain: [bin/desktop-launch]
+    extensions: [gnome]
     command: bin/sommelier
     plugs:
       - shmem
@@ -98,7 +92,7 @@ apps:
   # The winetricks command can be used to run winetricks inside the wine
   # environment that this snap uses.
   winetricks:
-    command-chain: [bin/desktop-launch]
+    extensions: [gnome]
     command: bin/sommelier winetricks
     plugs:
       - network
@@ -125,7 +119,10 @@ parts:
   sommelier:
     plugin: make
     source: https://github.com/mmtrt/sommelier-core.git
-    source-branch: "new-core24"
+    source-branch: "core24"
+    build-packages:
+      - libc6-dev-i386
+      - gcc-multilib
 
   #fix-up-font:
     #plugin: nil
