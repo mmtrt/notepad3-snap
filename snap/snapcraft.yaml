@@ -57,11 +57,6 @@ apps:
     command: bin/sommelier run-exe
     plugs:
       - shmem
-      - desktop
-      - desktop-legacy
-      - wayland
-      - x11
-      - gsettings
       - opengl
       - home
       - network
@@ -80,12 +75,6 @@ apps:
     command: bin/sommelier
     plugs:
       - shmem
-      - desktop
-      - desktop-legacy
-      - wayland
-      - x11
-      - gsettings
-      - opengl
       - home
       - network
       - hardware-observe
@@ -123,16 +112,3 @@ parts:
     plugin: make
     source: https://github.com/mmtrt/sommelier-core.git
     source-branch: "tmp-core24-test"
-
-  #fix-up-font:
-    #plugin: nil
-    #after: [gnome/sdk]
-    #override-prime: |
-      #sed -i '/snap-package/,+1d' $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
-
-  #fix-bindtext:
-    #plugin: nil
-    #after: [gnome/sdk]
-    #override-prime: |
-      #sed -i "$(grep -in bindtext $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch | cut -d':' -f1 | tail -2 | head -1)d" $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
-      #sed -i "$(grep -in bindtext $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch | cut -d':' -f1 | tail -1)d" $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
