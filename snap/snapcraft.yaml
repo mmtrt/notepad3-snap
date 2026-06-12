@@ -53,6 +53,7 @@ environment:
 
 apps:
   notepad3:
+    extensions: [gnome]
     command: bin/sommelier run-exe
     plugs:
       - shmem
@@ -75,6 +76,7 @@ apps:
   # For example, users can configure the wine environment of this snap
   # by running `myapp.wine winecfg`.
   wine:
+    extensions: [gnome]
     command: bin/sommelier
     plugs:
       - shmem
@@ -93,6 +95,7 @@ apps:
   # The winetricks command can be used to run winetricks inside the wine
   # environment that this snap uses.
   winetricks:
+    extensions: [gnome]
     command: bin/sommelier winetricks
     plugs:
       - network
