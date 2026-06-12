@@ -119,10 +119,7 @@ parts:
   sommelier:
     plugin: make
     source: https://github.com/mmtrt/sommelier-core.git
-    source-branch: "core24"
-    build-packages:
-      - libc6-dev-i386
-      - gcc-multilib
+    source-branch: "tmp-core24"
 
   #fix-up-font:
     #plugin: nil
