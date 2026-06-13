@@ -17,5 +17,5 @@ cp -urs "$progRealPath/"* "$progHome" &>/dev/null
 
 chklnk=$(find $progHome/ -type l -name "*.ini" | wc -l)
 if [ $chklnk -ge 1 ]; then
-rm "$progHome/minipath.ini"; rm "$progHome/Notepad3.ini"; rm "$progHome/themes/Dark.ini"; rm "$progHome/themes/Obsidian.ini"; find "$progRealPath/" -maxdepth 1 -type f -name "*.ini" -exec cp {} "$progHome/" \; && find "$progRealPath/themes/" -type f -name "*.ini" 2>/dev/null -exec cp {} "$progHome/themes/" \;
+rm "$progHome/minipath.ini"; rm "$progHome/Notepad3.ini"; rm "$progHome/Themes/Dark.ini"; rm "$progHome/Themes/Obsidian.ini"; find "$progRealPath/" -maxdepth 1 -type f -name "*.ini" -exec cp {} "$progHome/" \; && find "$progRealPath/Themes/" -type f -name "*.ini" 2>/dev/null -exec cp {} "$progHome/Themes/" \;
 fi

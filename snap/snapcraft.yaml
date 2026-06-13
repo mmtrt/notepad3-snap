@@ -5,23 +5,27 @@ description: |
  notepad3 is a fast and light-weight Scintilla-based text editor with syntax highlighting. It has a small memory footprint, but is powerful enough to handle most programming jobs.
 adopt-info: notepad3
 
-confinement: strict
 grade: stable
-architectures:
-  - build-on: amd64
-  - build-on: i386
-base: core18
+confinement: strict
+base: core24
+platforms:
+  amd64:
 compression: lzo
+assumes:
+  - snapd2.62
 
 plugs:
-  wine-runtime:
+  shmem:
+    interface: shared-memory
+    private: true
+  wine-runtime-c24:
     interface: content
     target: $SNAP/wine-runtime
-    default-provider: wine-platform-runtime
-  wine-6-stable:
+    default-provider: wine-platform-runtime-core24
+  wine-base-stable:
     interface: content
     target: $SNAP/wine-platform
-    default-provider: wine-platform-6-stable
+    default-provider: wine-platform
 
 environment:
   WINEDLLOVERRIDES: "mscoree,mshtml=" # Prevent pop-ups about Wine Mono and Wine Gecko
@@ -32,14 +36,12 @@ environment:
 
 apps:
   notepad3:
-    extensions: [ gnome-3-28 ]
+    extensions: [gnome]
     command: bin/sommelier run-exe
     plugs:
-      - opengl
+      - shmem
       - home
       - network
-      - hardware-observe
-      - process-control
       - cups-control
       - removable-media
     desktop: usr/share/applications/notepad3.desktop
@@ -49,19 +51,18 @@ apps:
   # For example, users can configure the wine environment of this snap
   # by running `myapp.wine winecfg`.
   wine:
-    extensions: [ gnome-3-28 ]
+    extensions: [gnome]
     command: bin/sommelier
     plugs:
+      - shmem
       - home
       - network
-      - hardware-observe
-      - process-control
       - cups-control
       - removable-media
   # The winetricks command can be used to run winetricks inside the wine
   # environment that this snap uses.
   winetricks:
-    extensions: [ gnome-3-28 ]
+    extensions: [gnome]
     command: bin/sommelier winetricks
     plugs:
       - network
@@ -71,7 +72,7 @@ parts:
     plugin: nil
     source: ./snap/local/src
     override-build: |
-      snapcraftctl build
+      craftctl default
       set -ex
       #ver=$(wget https://www.rizonesoft.com/downloads/notepad3 -q -S -O - 2>&1 | grep 'Notepad3_' | sed '1d;3,7d;s|_| |g' | awk '{print $2}' | head -n1)
       snapcraftctl set-version "5.21.905.1"
@@ -88,10 +89,4 @@ parts:
   sommelier:
     plugin: make
     source: https://github.com/mmtrt/sommelier-core.git
-    source-branch: "tmp"
-
-  fix-up-font:
-    plugin: nil
-    after: [gnome-3-28-extension]
-    override-prime: |
-      sed -i '/snap-package/,+1d' $SNAPCRAFT_PRIME/snap/command-chain/desktop-launch
+    source-branch: "core24"
