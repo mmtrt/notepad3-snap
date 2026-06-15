@@ -14,10 +14,6 @@ assumes:
   - snapd2.62
 
 plugs:
-  gaming-graphics-core24:
-    interface: content
-    target: $SNAP/graphics
-    default-provider: gaming-graphics-core24
   shmem:
     interface: shared-memory
     private: true
@@ -43,11 +39,8 @@ apps:
     command: bin/sommelier run-exe
     plugs:
       - shmem
-      - opengl
       - home
       - network
-      - hardware-observe
-      - process-control
       - cups-control
       - removable-media
     desktop: usr/share/applications/notepad3.desktop
@@ -63,8 +56,6 @@ apps:
       - shmem
       - home
       - network
-      - hardware-observe
-      - process-control
       - cups-control
       - removable-media
   # The winetricks command can be used to run winetricks inside the wine
