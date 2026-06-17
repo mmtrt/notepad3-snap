@@ -10,14 +10,13 @@
 #
 
 dlnp3 () {
-#     ver="$(wget https://www.rizonesoft.com/downloads/notepad3 -q -S -O - 2>&1 | grep 'Notepad3_' | sed '1d;3,7d;s|_| |g' | awk '{print $2}' | head -n1)"
-    ver="5.21.905.1"
+    ver="$(wget -qO- https://github.com/rizonesoft/Notepad3/releases | grep -m2 -oP 'RELEASE_\K[^"]+' | tail -n1)"
     if wget -q --method=HEAD "https://github.com/rizonesoft/Notepad3/releases/download/RELEASE_${ver}/Notepad3_${ver}.zip"; then
      wget --accept "*.zip" "https://github.com/rizonesoft/Notepad3/releases/download/RELEASE_${ver}/Notepad3_${ver}.zip" &> /dev/null
      unzip Notepad3_${ver}.zip &> /dev/null
     else
-     wget --accept "*.zip" "https://github.com/rizonesoft/Notepad3/releases/download/RELEASE_${ver}/Notepad3_${ver}_x64.zip" &> /dev/null
-     wget --accept "*.zip" "https://github.com/rizonesoft/Notepad3/releases/download/RELEASE_${ver}/Notepad3_${ver}_x86.zip" &> /dev/null
+     wget --accept "*.zip" "https://github.com/rizonesoft/Notepad3/releases/download/RELEASE_${ver}/Notepad3_${ver}_x64_Portable.zip" &> /dev/null
+     wget --accept "*.zip" "https://github.com/rizonesoft/Notepad3/releases/download/RELEASE_${ver}/Notepad3_${ver}_x86_Portable.zip" &> /dev/null
     fi
 }
 
@@ -25,9 +24,9 @@ mknp3 () {
     mkdir -p ./{wine-runtime,wine-platform,bin} && mkdir -p sommelier/hooks && mkdir -p usr/share/{pixmaps,applications}
     ARCHITECTURE=$(dpkg --print-architecture)
     if [ "${ARCHITECTURE}" = "amd64" ]; then
-     unzip Notepad3_${ver}_x64.zip -x 'Changes.txt' -x 'License.txt' -x 'Readme.txt' -d "usr/share/notepad3" &> /dev/null
+     unzip Notepad3_${ver}_x64_Portable.zip -x 'Changes.txt' -x 'License.txt' -x 'Readme.txt' -d "usr/share/notepad3" &> /dev/null
     elif [ "${ARCHITECTURE}" = "i386" ]; then
-     unzip Notepad3_${ver}_x86.zip -x 'Changes.txt' -x 'License.txt' -x 'Readme.txt' -d "usr/share/notepad3" &> /dev/null
+     unzip Notepad3_${ver}_x86_Portable.zip -x 'Changes.txt' -x 'License.txt' -x 'Readme.txt' -d "usr/share/notepad3" &> /dev/null
     else
      echo "ERROR! Notepad3 only produces software for amd64 and i386. Failing the build here."
      exit 1
