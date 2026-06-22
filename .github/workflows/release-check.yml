@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
       with:
-        token: ${{ secrets.PAT }}
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: get-latest-version
       run: |
         VERSION="$(wget -qO- https://github.com/rizonesoft/Notepad3/releases | grep -m2 -oP 'RELEASE_\K[^"]+' | tail -n1)"
