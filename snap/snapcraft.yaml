@@ -39,8 +39,6 @@ apps:
     command: bin/sommelier run-exe
     plugs:
       - shmem
-      - home
-      - network
       - cups-control
       - removable-media
     desktop: usr/share/applications/notepad3.desktop
@@ -54,8 +52,6 @@ apps:
     command: bin/sommelier
     plugs:
       - shmem
-      - home
-      - network
       - cups-control
       - removable-media
   # The winetricks command can be used to run winetricks inside the wine
